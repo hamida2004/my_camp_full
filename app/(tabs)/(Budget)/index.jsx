@@ -1,13 +1,12 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import { db } from "../../../database/db";
-import { translations } from "../../../translations";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { dbEvents } from "../../../events/events";
+import { useLanguage } from "../../../context/languageContext";
 
 export default function Budget() {
-  const [lang, setLang] = useState("en");
-  const t = translations[lang];
+
+  const { t } = useLanguage(); // ✅ FIXED
 
   const [people, setPeople] = useState([]);
   const [descriptions, setDescriptions] = useState({});
@@ -18,25 +17,12 @@ export default function Budget() {
     setPeople(result);
   };
 
-  // Refresh initially and on DB updates
   useEffect(() => {
     refreshPeople();
     const listener = () => refreshPeople();
     dbEvents.on("dbUpdated", listener);
     return () => dbEvents.off("dbUpdated", listener);
   }, []);
-
-  const changeLanguage = () => {
-    Alert.alert(
-      "Language",
-      "Choose language",
-      [
-        { text: "English", onPress: () => setLang("en") },
-        { text: "Français", onPress: () => setLang("fr") },
-        { text: "العربية", onPress: () => setLang("ar") },
-      ]
-    );
-  };
 
   const getTotalExpenses = (personId) =>
     db.getFirstSync(
@@ -77,18 +63,23 @@ export default function Budget() {
     return "#e74c3c";
   };
 
-  return (
-    <View style={{ flex: 1, backgroundColor: "#f9f9f9", paddingTop: 80 }}>
-      {/* Language Selector */}
-      <TouchableOpacity
-        onPress={changeLanguage}
-        style={{ position: "absolute", top: 40, right: 20, zIndex: 10 }}
-      >
-        <MaterialIcons name="language" size={28} color="#3498db" />
-      </TouchableOpacity>
+  // ✅ EMPTY STATE IMPROVED
+  if (people.length === 0) {
+    return (
+      <View style={{ flex:1, alignItems:'center', justifyContent:'center', padding:20 }}>
+        <Text style={{ fontSize:16, color:"#777", textAlign:"center" }}>
+          {t.noChildrenBudget || "Add children to manage their budgets"}
+        </Text>
+      </View>
+    );
+  }
 
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
+  return (
+    <View style={{ flex: 1, backgroundColor: "#f9f9f9" , paddingVertical:60}}>
+
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 80 }}>
         {people.map((item) => {
+
           const remaining = item.money - getTotalExpenses(item.id);
 
           return (
@@ -105,10 +96,12 @@ export default function Budget() {
                 elevation: 2,
               }}
             >
+              {/* NAME */}
               <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 5 }}>
                 {item.name}
               </Text>
 
+              {/* BUDGET */}
               <Text style={{ marginBottom: 10 }}>
                 {t.initialBudget}: {item.money} DA —{" "}
                 <Text style={{ color: getColor(remaining, item.money), fontWeight: "bold" }}>
@@ -116,46 +109,37 @@ export default function Budget() {
                 </Text>
               </Text>
 
-              {/* Description Input */}
+              {/* DESCRIPTION */}
               <TextInput
+              placeholderTextColor="#999"
                 placeholder={t.expenseDescription}
                 value={descriptions[item.id] || ""}
-                onChangeText={(val) => setDescriptions((prev) => ({ ...prev, [item.id]: val }))}
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ccc",
-                  padding: 10,
-                  borderRadius: 8,
-                  marginBottom: 8,
-                }}
+                onChangeText={(val) =>
+                  setDescriptions((prev) => ({ ...prev, [item.id]: val }))
+                }
+                style={styles.input}
               />
 
-              {/* Amount Input */}
+              {/* AMOUNT */}
               <TextInput
+              placeholderTextColor="#999"
                 placeholder={t.amount}
                 keyboardType="numeric"
                 value={amounts[item.id] || ""}
-                onChangeText={(val) => setAmounts((prev) => ({ ...prev, [item.id]: val }))}
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ccc",
-                  padding: 10,
-                  borderRadius: 8,
-                  marginBottom: 10,
-                }}
+                onChangeText={(val) =>
+                  setAmounts((prev) => ({ ...prev, [item.id]: val }))
+                }
+                style={styles.input}
               />
 
-              {/* Add Expense Button */}
+              {/* BUTTON */}
               <TouchableOpacity
                 onPress={() => addExpense(item.id, item.money)}
-                style={{
-                  backgroundColor: "#3498db",
-                  paddingVertical: 12,
-                  borderRadius: 8,
-                  alignItems: "center",
-                }}
+                style={styles.button}
               >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>{t.addExpense}</Text>
+                <Text style={styles.buttonText}>
+                  {t.add}
+                </Text>
               </TouchableOpacity>
             </View>
           );
@@ -164,3 +148,23 @@ export default function Budget() {
     </View>
   );
 }
+
+const styles = {
+  input:{
+    borderWidth:1,
+    borderColor:"#ddd",
+    padding:10,
+    borderRadius:8,
+    marginBottom:10
+  },
+  button:{
+    backgroundColor:"#3498db",
+    paddingVertical:12,
+    borderRadius:8,
+    alignItems:"center"
+  },
+  buttonText:{
+    color:"#fff",
+    fontWeight:"bold"
+  }
+};
