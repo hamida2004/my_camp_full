@@ -1,6 +1,21 @@
 export const translations = {
 
   en: {
+roleDirector: "Director",
+roleViceDirector: "Vice Director",
+roleDoctor: "Doctor",
+roleNurse: "Nurse",
+roleFinance: "Finance",
+roleMagazinier: "Storekeeper",
+roleSwimmingMonitor: "Swimming Monitor",
+roleChef: "Chef",
+roleSecondChef: "Second Chef",
+roleChefSousCamp: "Sub-Camp Leader",
+roleMentor: "Mentor",
+    // en
+developedBy: "Developed by DADDA Hamida",
+
+
 
     // ===== GENERAL =====
     language: "Language",
@@ -235,6 +250,21 @@ export const translations = {
     success: "Success",
     error: "Error",
 
+
+    // English
+expenses: "Expenses",
+expenseDescription: "Description",
+amount: "Amount",
+noExpenses: "No expenses",
+
+inventoryDescription:
+  "Manage the items assigned to this child and add new items to the inventory.",
+
+addItemDescription:
+  "Create a new item that can be added to the child's inventory.",
+
+availableItemsDescription:
+  "Tap an item to add it to this child's inventory.",
     // ===== KEEP ALL OLD KEYS BELOW (example subset kept as-is) =====
     day: "Day",
     date: "Date",
@@ -305,7 +335,7 @@ export const translations = {
   // ===== MENTOR DASHBOARD =====
   mentorDashboardSubtitle: "Manage your tasks and responsibilities",
   openSection: "Open section",
-
+  exportDOCX: "Export Word",
   // ===== CAMP INDEX =====
   campManagement: "Camp Management",
   generalInfoDesc: "Basic information about the camp",
@@ -379,13 +409,36 @@ export const translations = {
 
   single: "Single",
   married: "Married",
-  divorced: "Divorced"
+  divorced: "Divorced",
+  budget: "Budget",
+budgetDescription: "Manage each child's budget and track their expenses.",
 
   },
 
   // ========================= FR =========================
 
   fr: {
+    roleDirector: "Directeur",
+roleViceDirector: "Directeur adjoint",
+roleDoctor: "Médecin",
+roleNurse: "Infirmier",
+roleFinance: "Financier",
+roleMagazinier: "Magasinier",
+roleSwimmingMonitor: "Moniteur de natation",
+roleChef: "Chef cuisinier",
+roleSecondChef: "Second chef",
+roleChefSousCamp: "Chef de sous-camp",
+roleMentor: "Moniteur",
+  // French
+budget: "Budget",
+budgetDescription: "Gérez le budget de chaque enfant et suivez ses dépenses.",
+
+expenses: "Dépenses",
+expenseDescription: "Description",
+amount: "Montant",
+noExpenses: "Aucune dépense",
+developedBy: "Développé par DADDA Hamida",
+
     center: "Centre",
     birthPlace: "Lieu de naissance ",
 
@@ -444,6 +497,18 @@ export const translations = {
 
     reportTitle: "Rapport",
     date: "Date",
+
+
+inventoryDescription:
+  "Gérez les articles attribués à cet enfant et ajoutez de nouveaux articles à son inventaire.",
+
+addItemDescription:
+  "Créez un nouvel article qui pourra être ajouté à l’inventaire de l’enfant.",
+
+availableItemsDescription:
+  "Appuyez sur un article pour l’ajouter à l’inventaire de cet enfant.",
+
+
 
     initialBudget: "Budget initial",
     remaining: "Restant",
@@ -651,15 +716,50 @@ export const translations = {
    email: "Email",
   emergencyPhone: "Téléphone d'urgence",
   academicLevel: "Niveau académique",
-  job: "Profession"
+  job: "Profession",
 
+
+
+
+exportDOCX: "Export Word",
   
   },
 
   // ========================= AR =========================
 
   ar: {
+    roleDirector: "المدير",
+roleViceDirector: "نائب المدير",
+roleDoctor: "الطبيب",
+roleNurse: "الممرض",
+roleFinance: "المسؤول المالي",
+roleMagazinier: "أمين المخزن",
+roleSwimmingMonitor: "منشط السباحة",
+roleChef: "الطباخ الرئيسي",
+roleSecondChef: "مساعد الطباخ",
+roleChefSousCamp: "رئيس الفوج",
+roleMentor: "المنشط",
+ budget: "الميزانية",
+budgetDescription: "إدارة ميزانية كل طفل ومتابعة نفقاته.",
+// ar
+// Arabic
+expenses: "المصاريف",
+expenseDescription: "الوصف",
+amount: "المبلغ",
+noExpenses: "لا توجد مصاريف",
 
+
+inventoryDescription:
+  "إدارة الأغراض المخصصة لهذا الطفل وإضافة أغراض جديدة إلى مخزونه.",
+
+addItemDescription:
+  "إنشاء غرض جديد يمكن إضافته إلى مخزون الطفل.",
+
+availableItemsDescription:
+  "اضغط على الغرض لإضافته إلى مخزون هذا الطفل.",
+
+exportDOCX: "تصدير Word",
+developedBy: "طوّرت بواسطة داده حميدة",
     center: "المركز",
     sex: "الجنس",
   familyStatus: "الحالة العائلية",

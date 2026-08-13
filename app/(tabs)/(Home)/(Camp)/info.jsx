@@ -19,7 +19,13 @@ export default function General() {
     const data = db.getFirstSync("SELECT * FROM camp_info LIMIT 1");
     if (data) {
       const { id, ...rest } = data;
-      setInfo(rest);
+      setInfo({
+        ...rest,
+        children_male: String(rest.children_male ?? ""),
+        children_female: String(rest.children_female ?? ""),
+        stuff_male: String(rest.stuff_male ?? ""),
+        stuff_female: String(rest.stuff_female ?? ""),
+      });
     }
   }, []);
 
@@ -37,8 +43,10 @@ export default function General() {
     `, [
       info.name, info.center, info.organized_by, info.location,
       info.startDate, info.endDate,
-      info.children_male, info.children_female,
-      info.stuff_male, info.stuff_female,
+      parseInt(info.children_male) || 0,
+      parseInt(info.children_female) || 0,
+      parseInt(info.stuff_male) || 0,
+      parseInt(info.stuff_female) || 0,
       info.description
     ]);
 
@@ -48,33 +56,98 @@ export default function General() {
   return (
     <ScrollView style={{ padding: 20, backgroundColor: "#f9f9f9", paddingVertical: 60 }}>
 
-      <TextInput placeholderTextColor="#999" placeholder={t.campName}
-        value={info.name} onChangeText={v => update("name", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.center}
-        value={info.center} onChangeText={v => update("center", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.organizedBy}
-        value={info.organized_by} onChangeText={v => update("organized_by", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.location}
-        value={info.location} onChangeText={v => update("location", v)} style={styles.input} />
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.campName}
+        value={info.name}
+        onChangeText={v => update("name", v)}
+        style={styles.input}
+      />
 
-      <TextInput placeholderTextColor="#999" placeholder={t.startDate}
-        value={info.startDate} onChangeText={v => update("startDate", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.endDate}
-        value={info.endDate} onChangeText={v => update("endDate", v)} style={styles.input} />
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.center}
+        value={info.center}
+        onChangeText={v => update("center", v)}
+        style={styles.input}
+      />
 
-      <TextInput placeholderTextColor="#999" placeholder={t.childrenMale}
-        value={info.children_male} onChangeText={v => update("children_male", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.childrenFemale}
-        value={info.children_female} onChangeText={v => update("children_female", v)} style={styles.input} />
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.organizedBy}
+        value={info.organized_by}
+        onChangeText={v => update("organized_by", v)}
+        style={styles.input}
+      />
 
-      <TextInput placeholderTextColor="#999" placeholder={t.staffMale}
-        value={info.stuff_male} onChangeText={v => update("stuff_male", v)} style={styles.input} />
-      <TextInput placeholderTextColor="#999" placeholder={t.staffFemale}
-        value={info.stuff_female} onChangeText={v => update("stuff_female", v)} style={styles.input} />
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.location}
+        value={info.location}
+        onChangeText={v => update("location", v)}
+        style={styles.input}
+      />
 
-      <TextInput placeholderTextColor="#999" placeholder={t.description}
-        value={info.description} onChangeText={v => update("description", v)}
-        multiline style={styles.input} />
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.startDate}
+        value={info.startDate}
+        onChangeText={v => update("startDate", v)}
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.endDate}
+        value={info.endDate}
+        onChangeText={v => update("endDate", v)}
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.childrenMale}
+        value={info.children_male}
+        onChangeText={v => update("children_male", v)}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.childrenFemale}
+        value={info.children_female}
+        onChangeText={v => update("children_female", v)}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.staffMale}
+        value={info.stuff_male}
+        onChangeText={v => update("stuff_male", v)}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.staffFemale}
+        value={info.stuff_female}
+        onChangeText={v => update("stuff_female", v)}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholderTextColor="#999"
+        placeholder={t.description}
+        value={info.description}
+        onChangeText={v => update("description", v)}
+        multiline
+        style={styles.input}
+      />
 
       <TouchableOpacity style={styles.button} onPress={save}>
         <Text style={styles.btn}>{t.save}</Text>
@@ -86,6 +159,6 @@ export default function General() {
 
 const styles = {
   input: { borderWidth: 1, padding: 10, marginBottom: 10, borderRadius: 8, backgroundColor: "#fff" },
-  button: { backgroundColor: "#3498db", padding: 12, borderRadius: 10 },
+  button: { backgroundColor: "#3498db", padding: 12, borderRadius: 10, marginBottom: 40 },
   btn: { color: "#fff", textAlign: "center", fontWeight: "bold" }
 };
