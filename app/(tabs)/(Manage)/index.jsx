@@ -69,7 +69,10 @@ export default function PersonInventory() {
 
   const addItemToDB = () => {
 
-    if (!newItemName.trim()) {
+    const itemName =
+      newItemName.trim();
+
+    if (!itemName) {
 
       Alert.alert(
         t.emptyName,
@@ -83,7 +86,7 @@ export default function PersonInventory() {
 
       db.runSync(
         "INSERT INTO items (name) VALUES (?)",
-        [newItemName.trim()]
+        [itemName]
       );
 
       setNewItemName("");
@@ -96,10 +99,84 @@ export default function PersonInventory() {
 
       Alert.alert(
         t.duplicateItem,
-        `${newItemName} ${t.alreadyExists}`
+        `${itemName} ${t.alreadyExists}`
       );
 
     }
+  };
+
+
+  // =========================================================
+  // DELETE ITEM
+  // =========================================================
+
+  const deleteItem = (itemId, itemName) => {
+
+    Alert.alert(
+      t.delete || "Delete",
+      `${t.deleteConfirm || "Are you sure you want to delete"} "${itemName}"?`,
+      [
+        {
+          text: t.cancel,
+          style: "cancel"
+        },
+
+        {
+          text: t.delete,
+          style: "destructive",
+
+          onPress: () => {
+
+            try {
+
+              // Remove all inventory references
+              // to this item first.
+
+              db.runSync(
+                `
+                DELETE FROM inventory
+                WHERE itemId=?
+                `,
+                [itemId]
+              );
+
+
+              // Then remove the item itself.
+
+              db.runSync(
+                `
+                DELETE FROM items
+                WHERE id=?
+                `,
+                [itemId]
+              );
+
+
+              dbEvents.emit(
+                "dbUpdated"
+              );
+
+            } catch (error) {
+
+              console.error(
+                "Delete item error:",
+                error
+              );
+
+              Alert.alert(
+                t.error || "Error",
+                t.deleteItemError ||
+                  "Could not delete this item."
+              );
+
+            }
+
+          }
+
+        }
+
+      ]
+    );
   };
 
 
@@ -163,6 +240,62 @@ export default function PersonInventory() {
 
 
   // =========================================================
+  // REMOVE ONE ITEM FROM PERSON
+  // =========================================================
+
+  const removeItemFromPerson = (itemId) => {
+
+    const existing =
+      db.getFirstSync(
+        `
+        SELECT *
+        FROM inventory
+        WHERE personId=?
+        AND itemId=?
+        `,
+        [
+          id,
+          itemId
+        ]
+      );
+
+
+    if (!existing) {
+      return;
+    }
+
+
+    if (existing.quantity > 1) {
+
+      db.runSync(
+        `
+        UPDATE inventory
+        SET quantity = quantity - 1
+        WHERE id=?
+        `,
+        [existing.id]
+      );
+
+    } else {
+
+      db.runSync(
+        `
+        DELETE FROM inventory
+        WHERE id=?
+        `,
+        [existing.id]
+      );
+
+    }
+
+
+    dbEvents.emit(
+      "dbUpdated"
+    );
+  };
+
+
+  // =========================================================
   // UI
   // =========================================================
 
@@ -173,6 +306,7 @@ export default function PersonInventory() {
       <FlatList
         data={items}
         numColumns={3}
+
         keyExtractor={(item) =>
           item.id.toString()
         }
@@ -293,35 +427,82 @@ export default function PersonInventory() {
           </>
         }
 
+
+        // =====================================================
+        // ITEM
+        // =====================================================
+
         renderItem={({ item }) => (
 
-          <TouchableOpacity
-            onPress={() =>
-              addItemToPerson(item.id)
-            }
-
-            activeOpacity={0.75}
-
+          <View
             style={styles.itemCard}
           >
 
-            <View style={styles.itemIcon}>
+            {/* ADD */}
+
+            <TouchableOpacity
+              onPress={() =>
+                addItemToPerson(item.id)
+              }
+
+              activeOpacity={0.75}
+
+              style={styles.itemMain}
+            >
+
+              <View style={styles.itemIcon}>
+
+                <MaterialIcons
+                  name="inventory-2"
+                  size={24}
+                  color="#3498db"
+                />
+
+              </View>
+
+              <Text style={styles.itemName}>
+                {item.name}
+              </Text>
+
+            </TouchableOpacity>
+
+
+            {/* DELETE ITEM */}
+
+            <TouchableOpacity
+              onPress={() =>
+                deleteItem(
+                  item.id,
+                  item.name
+                )
+              }
+
+              style={styles.deleteButton}
+
+              hitSlop={{
+                top: 8,
+                bottom: 8,
+                left: 8,
+                right: 8
+              }}
+            >
 
               <MaterialIcons
-                name="inventory-2"
-                size={24}
-                color="#3498db"
+                name="delete-outline"
+                size={19}
+                color="#e74c3c"
               />
 
-            </View>
+            </TouchableOpacity>
 
-            <Text style={styles.itemName}>
-              {item.name}
-            </Text>
-
-          </TouchableOpacity>
+          </View>
 
         )}
+
+
+        // =====================================================
+        // EMPTY
+        // =====================================================
 
         ListEmptyComponent={
 
@@ -360,10 +541,6 @@ export default function PersonInventory() {
 // ===========================================================
 
 const styles = {
-
-  // ---------------------------------------------------------
-  // CONTAINER
-  // ---------------------------------------------------------
 
   container: {
     flex: 1,
@@ -421,6 +598,7 @@ const styles = {
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 5,
+
     shadowOffset: {
       width: 0,
       height: 2
@@ -441,7 +619,9 @@ const styles = {
     width: 42,
     height: 42,
     borderRadius: 10,
+
     backgroundColor: "#eef6fc",
+
     alignItems: "center",
     justifyContent: "center"
   },
@@ -491,8 +671,10 @@ const styles = {
     backgroundColor: "#3498db",
     paddingVertical: 12,
     borderRadius: 10,
+
     alignItems: "center",
     justifyContent: "center",
+
     flexDirection: "row"
   },
 
@@ -535,23 +717,37 @@ const styles = {
   itemCard: {
     flex: 1,
     minHeight: 105,
+
     backgroundColor: "#fff",
     borderRadius: 12,
+
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+
+    elevation: 2,
+
+    position: "relative",
+
+    overflow: "hidden"
+  },
+
+
+  itemMain: {
+    flex: 1,
 
     alignItems: "center",
     justifyContent: "center",
 
     padding: 12,
 
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-
-    elevation: 2
+    paddingTop: 16,
+    paddingBottom: 16
   },
 
 
@@ -559,6 +755,7 @@ const styles = {
     width: 42,
     height: 42,
     borderRadius: 21,
+
     backgroundColor: "#eef6fc",
 
     alignItems: "center",
@@ -572,7 +769,31 @@ const styles = {
     textAlign: "center",
     fontSize: 13,
     fontWeight: "600",
-    color: "#2c3e50"
+    color: "#2c3e50",
+
+    paddingHorizontal: 5
+  },
+
+
+  // ---------------------------------------------------------
+  // DELETE
+  // ---------------------------------------------------------
+
+  deleteButton: {
+    position: "absolute",
+
+    top: 7,
+    right: 7,
+
+    width: 28,
+    height: 28,
+
+    borderRadius: 14,
+
+    backgroundColor: "#fff5f5",
+
+    alignItems: "center",
+    justifyContent: "center"
   },
 
 
@@ -583,14 +804,18 @@ const styles = {
   emptyState: {
     backgroundColor: "#fff",
     borderRadius: 12,
+
     padding: 30,
+
     alignItems: "center",
     justifyContent: "center",
+
     marginTop: 5,
 
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 5,
+
     shadowOffset: {
       width: 0,
       height: 2
@@ -604,6 +829,7 @@ const styles = {
     fontSize: 16,
     fontWeight: "bold",
     color: "#555",
+
     marginTop: 10,
     marginBottom: 4
   },
@@ -616,3 +842,4 @@ const styles = {
   }
 
 };
+

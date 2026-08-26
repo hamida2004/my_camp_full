@@ -1,6 +1,92 @@
 export const translations = {
 
   en: {
+
+editTask: "Edit Task",
+editRemark: "Edit Remark",
+editMeeting: "Edit Meeting",
+
+update: "Update",
+cancel: "Cancel",
+
+delete: "Delete",
+confirm: "Are you sure you want to delete this item?",
+
+clearDone: "Clear Done",
+clearAll: "Clear All",
+
+resetConfirm: "Are you sure you want to continue?",
+yes: "Yes",
+  inventory: "Inventory",
+
+  birthDate: "Birth Date",
+
+  initialBudget: "Initial Budget",
+
+  remaining: "Remaining",
+
+  error: "Error",
+
+  loadFailed: "Could not load the child data.",
+
+  addFailed: "Could not add the item.",
+
+  delete: "Delete",
+
+  cancel: "Cancel",
+
+  confirmDeleteItem: "Remove item?",
+
+  inventoryImage: "Inventory Image",
+
+  chooseImageAction:
+    "Choose how you want to add the inventory image.",
+
+  takePhoto: "Take Photo",
+
+  chooseFromGallery: "Choose from Gallery",
+
+  cameraPermissionTitle:
+    "Camera permission required",
+
+  cameraPermissionMessage:
+    "Please allow camera access to take an inventory photo.",
+
+  galleryPermissionTitle:
+    "Photo library permission required",
+
+  galleryPermissionMessage:
+    "Please allow photo library access to select an inventory photo.",
+
+  imageSaveFailed:
+    "Could not take or save the inventory photo.",
+
+  deleteImage: "Delete Image",
+
+  confirmDeleteImage:
+    "Are you sure you want to delete the inventory image?",
+
+  changeImage: "Change Image",
+
+  noInventoryImage: "No inventory image",
+
+  inventoryImageDescription:
+    "Take a photo or choose one from the gallery.",
+
+  addInventoryImage: "Add Inventory Image",
+
+  loading: "Loading...",
+
+  personNotFound: "Person not found",
+
+  noItems: "No items",
+
+  quantity: "Quantity",
+
+  addItem: "Add Item",
+
+  noItemsAvailable: "No items available",
+
 roleDirector: "Director",
 roleViceDirector: "Vice Director",
 roleDoctor: "Doctor",
@@ -418,6 +504,100 @@ budgetDescription: "Manage each child's budget and track their expenses.",
   // ========================= FR =========================
 
   fr: {
+editTask: "Modifier la tâche",
+editRemark: "Modifier la remarque",
+editMeeting: "Modifier la réunion",
+
+update: "Modifier",
+cancel: "Annuler",
+
+delete: "Supprimer",
+confirm: "Êtes-vous sûr de vouloir supprimer cet élément ?",
+
+clearDone: "Effacer les tâches terminées",
+clearAll: "Tout effacer",
+
+resetConfirm: "Êtes-vous sûr de vouloir continuer ?",
+yes: "Oui",
+  inventory: "Inventaire",
+
+  birthDate: "Date de naissance",
+
+  initialBudget: "Budget initial",
+
+  remaining: "Restant",
+
+  error: "Erreur",
+
+  loadFailed:
+    "Impossible de charger les données de l’enfant.",
+
+  addFailed:
+    "Impossible d’ajouter l’article.",
+
+  delete: "Supprimer",
+
+  cancel: "Annuler",
+
+  confirmDeleteItem:
+    "Supprimer cet article ?",
+
+  inventoryImage: "Photo de l’inventaire",
+
+  chooseImageAction:
+    "Choisissez comment ajouter la photo de l’inventaire.",
+
+  takePhoto: "Prendre une photo",
+
+  chooseFromGallery:
+    "Choisir depuis la galerie",
+
+  cameraPermissionTitle:
+    "Autorisation de la caméra requise",
+
+  cameraPermissionMessage:
+    "Veuillez autoriser l’accès à la caméra pour prendre une photo de l’inventaire.",
+
+  galleryPermissionTitle:
+    "Autorisation de la galerie requise",
+
+  galleryPermissionMessage:
+    "Veuillez autoriser l’accès à la galerie pour sélectionner une photo de l’inventaire.",
+
+  imageSaveFailed:
+    "Impossible de prendre ou d’enregistrer la photo de l’inventaire.",
+
+  deleteImage: "Supprimer la photo",
+
+  confirmDeleteImage:
+    "Voulez-vous vraiment supprimer la photo de l’inventaire ?",
+
+  changeImage: "Changer la photo",
+
+  noInventoryImage:
+    "Aucune photo de l’inventaire",
+
+  inventoryImageDescription:
+    "Prenez une photo ou choisissez-en une depuis la galerie.",
+
+  addInventoryImage:
+    "Ajouter une photo de l’inventaire",
+
+  loading: "Chargement...",
+
+  personNotFound:
+    "Personne introuvable",
+
+  noItems: "Aucun article",
+
+  quantity: "Quantité",
+
+  addItem: "Ajouter un article",
+
+  noItemsAvailable:
+    "Aucun article disponible",
+
+
     roleDirector: "Directeur",
 roleViceDirector: "Directeur adjoint",
 roleDoctor: "Médecin",
@@ -728,6 +908,100 @@ exportDOCX: "Export Word",
   // ========================= AR =========================
 
   ar: {
+ editTask: "Modifier la tâche",
+editRemark: "Modifier la remarque",
+editMeeting: "Modifier la réunion",
+
+update: "Modifier",
+cancel: "Annuler",
+
+delete: "Supprimer",
+confirm: "Êtes-vous sûr de vouloir supprimer cet élément ?",
+
+clearDone: "Effacer les tâches terminées",
+clearAll: "Tout effacer",
+
+resetConfirm: "Êtes-vous sûr de vouloir continuer ?",
+yes: "Oui",
+  inventory: "المخزون",
+
+  birthDate: "تاريخ الميلاد",
+
+  initialBudget: "الميزانية الأولية",
+
+  remaining: "المتبقي",
+
+  error: "خطأ",
+
+  loadFailed:
+    "تعذر تحميل بيانات الطفل.",
+
+  addFailed:
+    "تعذر إضافة العنصر.",
+
+  delete: "حذف",
+
+  cancel: "إلغاء",
+
+  confirmDeleteItem:
+    "هل تريد حذف هذا العنصر؟",
+
+  inventoryImage: "صورة المخزون",
+
+  chooseImageAction:
+    "اختر طريقة إضافة صورة المخزون.",
+
+  takePhoto: "التقاط صورة",
+
+  chooseFromGallery:
+    "اختيار من المعرض",
+
+  cameraPermissionTitle:
+    "يلزم السماح باستخدام الكاميرا",
+
+  cameraPermissionMessage:
+    "يرجى السماح بالوصول إلى الكاميرا لالتقاط صورة للمخزون.",
+
+  galleryPermissionTitle:
+    "يلزم السماح بالوصول إلى معرض الصور",
+
+  galleryPermissionMessage:
+    "يرجى السماح بالوصول إلى معرض الصور لاختيار صورة للمخزون.",
+
+  imageSaveFailed:
+    "تعذر التقاط صورة المخزون أو حفظها.",
+
+  deleteImage: "حذف الصورة",
+
+  confirmDeleteImage:
+    "هل أنت متأكد من رغبتك في حذف صورة المخزون؟",
+
+  changeImage: "تغيير الصورة",
+
+  noInventoryImage:
+    "لا توجد صورة للمخزون",
+
+  inventoryImageDescription:
+    "التقط صورة أو اختر صورة من المعرض.",
+
+  addInventoryImage:
+    "إضافة صورة للمخزون",
+
+  loading: "جارٍ التحميل...",
+
+  personNotFound:
+    "الشخص غير موجود",
+
+  noItems: "لا توجد عناصر",
+
+  quantity: "الكمية",
+
+  addItem: "إضافة عنصر",
+
+  noItemsAvailable:
+    "لا توجد عناصر متاحة",
+
+
     roleDirector: "المدير",
 roleViceDirector: "نائب المدير",
 roleDoctor: "الطبيب",
